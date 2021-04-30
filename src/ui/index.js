@@ -1,3 +1,4 @@
+// Add event listener for connecting gamepad
 window.addEventListener("gamepadconnected", function(e) {
   console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
     e.gamepad.index, e.gamepad.id,
@@ -5,6 +6,9 @@ window.addEventListener("gamepadconnected", function(e) {
   setGamepadName(e.gamepad.id);
   startMainLoop(e.gamepad.index);
 });
+
+// setup websocket
+const ws = new WebSocket('ws://192.168.1.111:3000/control-status');
 
 function setGamepadName(name) {
   document.getElementById('gamepad-name').innerHTML = name;
@@ -25,6 +29,7 @@ function pollGamepad(gamepadIndex) {
 
   setStickPosition('left', axes.leftX, axes.leftY);
   setStickPosition('right', axes.rightX, axes.rightY);
+  sendControlStatus(axes);
 }
 
 function mapAxes(rawAxes) {
@@ -50,4 +55,8 @@ function setStickPosition(position, x, y) {
   const cy = 110 - (y * 100);
   stickCircle.setAttribute('cx', cx);
   stickCircle.setAttribute('cy', cy);
+}
+
+function sendControlStatus(axes) {
+  ws.send(JSON.stringify(axes));
 }
