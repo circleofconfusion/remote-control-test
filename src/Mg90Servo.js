@@ -28,9 +28,9 @@ function mapAxisToPwm(axisVal, min, mid, max) {
 
 class Mg90Servo {
   channel;
-  min = 500;
+  min = 550;
   mid = 1500;
-  max = 2500;
+  max = 2450;
 
   constructor(channel) {
     if (+channel === NaN || +channel < 0) throw Error('Channel required!');

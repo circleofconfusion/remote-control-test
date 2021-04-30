@@ -10,6 +10,12 @@ const throttle = new Mg90Servo(1);
 const aileron = new Mg90Servo(2);
 const elevator = new Mg90Servo(3);
 
+// Set servos to middle position
+rudder.setSweep(0);
+throttle.setSweep(0);
+aileron.setSweep(0);
+elevator.setSweep(0);
+
 // Setup static web UI
 app.use(express.static(`${__dirname}/ui`));
 

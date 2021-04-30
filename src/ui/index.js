@@ -19,7 +19,7 @@ let mainLoop;
 function startMainLoop(gamepadIndex) {
   mainLoop = setInterval(() => {
     pollGamepad(gamepadIndex);
-  }, 100);
+  }, 50);
 }
 
 function pollGamepad(gamepadIndex) {
