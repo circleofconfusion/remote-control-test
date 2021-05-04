@@ -1,10 +1,10 @@
 const { pwm, mapAxisToPwm } = require('./Pca9685');
 
-class Mg90Servo {
+class Throttle {
   channel;
-  min = 550;
-  mid = 1500;
-  max = 2450;
+  min = 1000;
+  mid = 1520;
+  max = 2000;
 
   constructor(channel) {
     if (+channel === NaN || +channel < 0) throw Error('Channel required!');
@@ -12,10 +12,10 @@ class Mg90Servo {
     this.channel = channel;
   }
 
-  setSweep(axisVal) {
+  setSpeed(axisVal) {
     const mappedValue = mapAxisToPwm(axisVal, this.min, this.mid, this.max);
     pwm.setPulseLength(this.channel, mappedValue);
   }
-} 
+}
 
-module.exports = Mg90Servo;
+module.exports = Throttle;
