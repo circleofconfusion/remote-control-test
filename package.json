@@ -1,5 +1,5 @@
 {
-  "name": "hackday-remote",
+  "name": "remote-control-test",
   "version": "1.0.0",
   "description": "Remote control a servo from and Xbox controller",
   "main": "server/index.js",
