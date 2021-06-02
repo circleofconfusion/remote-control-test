@@ -3,8 +3,13 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-items: center;
+  grid-gap: 10px;
 }
 
 .stick-display {
-  border: 1px solid black
+  border: 1px solid black;
+}
+
+canvas {
+  border: 1px solid black;
 }

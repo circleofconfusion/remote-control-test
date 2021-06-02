@@ -16,6 +16,9 @@ function setGamepadName(name) {
 
 let mainLoop;
 
+const leftYExpoSlider = document.getElementById('left-y-expo-slider')
+let leftYExpo = +leftYExpoSlider.value;
+
 function startMainLoop(gamepadIndex) {
   mainLoop = setInterval(() => {
     pollGamepad(gamepadIndex);
@@ -40,11 +43,17 @@ function mapAxes(rawAxes) {
     rightY: -rawAxes[4],
   }
 
+  // set a "dead zone" of 0.1 around center
   Object.entries(mappedAxes).forEach(([k,v]) => {
     if (v < 0.1 && v > -0.1) {
       mappedAxes[k] = 0;
     }
   });
+
+  // apply expo to leftY
+  console.log('beforeExpo', mappedAxes.leftY)
+  mappedAxes.leftY = expo(mappedAxes.leftY, leftYExpo);
+  console.log('afterExpo', mappedAxes.leftY)
 
   return mappedAxes;
 }
@@ -60,3 +69,39 @@ function setStickPosition(position, x, y) {
 function sendControlStatus(axes) {
   ws.send(JSON.stringify(axes));
 }
+
+// expo stuff
+
+function expo(input, factor) {
+  return ( (1 - factor / 100) * input**3 ) + ( factor / 100 * input );
+}
+
+// handle expo changes
+leftYExpoSlider.addEventListener('input', evt => {
+  leftYExpo = +evt.target.value;
+  drawLeftYExpo();
+});
+
+
+function drawLeftYExpo() {
+  const ctx = document.getElementById('left-y-expo').getContext('2d');
+  ctx.clearRect(0,0,200,200);
+  
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  
+  ctx.moveTo(100, 0);
+  ctx.lineTo(100, 200);
+  
+  ctx.moveTo(0, 100);
+  ctx.lineTo(200, 100);
+
+  ctx.moveTo(0, 200);
+  for (let input = -1; input < 1; input += .01) {
+    ctx.lineTo(input * 100 + 100, 100 - expo(input, leftYExpo) * 100);
+  }
+
+  ctx.stroke();
+}
+
+drawLeftYExpo();
