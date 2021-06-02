@@ -3,7 +3,7 @@ const { pwm, mapAxisToPwm } = require('./Pca9685');
 class Throttle {
   channel;
   min = 1000;
-  mid = 1520;
+  mid = 1500;
   max = 2000;
 
   constructor(channel) {

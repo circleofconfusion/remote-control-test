@@ -23,13 +23,13 @@ app.use(express.static(`${__dirname}/ui`));
 // Websocket channel to receive control status updates
 app.ws('/control-status', ws => {
   ws.on('message', setServoPositions);
+  ws.on('close', setFailsafe);
 });
 
 // Setup web server
 app.listen(3000, () => {
   console.log(`listening on port ${port}`);
 });
-
 
 function setServoPositions(stringifiedData) {
   const { leftX, leftY, rightX, rightY } = JSON.parse(stringifiedData);
@@ -40,4 +40,7 @@ function setServoPositions(stringifiedData) {
   elevator.setSweep(rightY);
 }
 
+function setFailsafe() {
+  throttle.setSpeed(0);
+}
 
