@@ -32,6 +32,7 @@ function pollGamepad(gamepadIndex) {
 
   setStickPosition('left', axes.leftX, axes.leftY);
   setStickPosition('right', axes.rightX, axes.rightY);
+  drawLeftYValue(axes.leftY);
   sendControlStatus(axes);
 }
 
@@ -85,6 +86,7 @@ function drawLeftYExpo() {
   const ctx = document.getElementById('left-y-expo').getContext('2d');
   ctx.clearRect(0,0,200,200);
   
+  // cartesian plane
   ctx.beginPath();
   ctx.strokeStyle = 'black';
   
@@ -93,7 +95,17 @@ function drawLeftYExpo() {
   
   ctx.moveTo(0, 100);
   ctx.lineTo(200, 100);
+  ctx.stroke();
 
+  // cartesian plane numbers
+  ctx.fillText('0,0', 105, 115);
+  ctx.fillText('-1,0', 5, 115);
+  ctx.fillText('1,0', 182, 115);
+  ctx.fillText('0,-1', 105, 195);
+  ctx.fillText('0,1', 105, 15);
+
+  // curve
+  ctx.beginPath();
   ctx.moveTo(0, 200);
   for (let input = -1; input < 1; input += .01) {
     ctx.lineTo(input * 100 + 100, 100 - expo(input, leftYExpo) * 100);
@@ -101,6 +113,17 @@ function drawLeftYExpo() {
 
   ctx.stroke();
 }
+
+function drawLeftYValue(value) {
+  const ctx = document.getElementById('left-y-value').getContext('2d');
+  ctx.clearRect(0,0,200,200);
+
+  // input/output dot
+  ctx.beginPath();
+  ctx.arc(value * 100 + 100, 100 - expo(value, leftYExpo) * 100, 5, 0, 2 * Math.PI)
+  ctx.fill();
+}
+
 
 // Draw expo curve when page loads
 drawLeftYExpo();

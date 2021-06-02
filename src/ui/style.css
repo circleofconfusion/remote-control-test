@@ -10,6 +10,14 @@
   border: 1px solid black;
 }
 
+#left-y-expo-container {
+  position: relative;
+  width: 200px;
+}
+
 canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
   border: 1px solid black;
 }
