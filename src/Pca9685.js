@@ -9,7 +9,10 @@ const pwmOptions = {
   debug: false
 };
 
-// startup connection to Pca9685 board
+/**
+ * Singleton instance of a Pca9685Driver.
+ * All servo and throttle instances use this one reference.
+ */
 const pwm = new Pca9685Driver(pwmOptions, (err) => {
   if (err) {
     console.error("Error initializing PCA9685!");
@@ -17,7 +20,7 @@ const pwm = new Pca9685Driver(pwmOptions, (err) => {
   }
 });
 
-
+/** utility function to convert values from -1 to 1 to frequencies like 500 to 2500 */
 function mapAxisToPwm(axisVal, min, mid, max) {
   if (axisVal >= 0) {
     return mid + (max - mid) * axisVal;

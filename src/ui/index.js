@@ -1,23 +1,18 @@
+let mainLoop;
+const leftYExpoSlider = document.getElementById('left-y-expo-slider')
+let leftYExpo = +leftYExpoSlider.value;
+
 // Add event listener for connecting gamepad
 window.addEventListener("gamepadconnected", function(e) {
   console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
     e.gamepad.index, e.gamepad.id,
     e.gamepad.buttons.length, e.gamepad.axes.length);
-  setGamepadName(e.gamepad.id);
+  document.getElementById('gamepad-name').innerHTML = e.gamepad.id;
   startMainLoop(e.gamepad.index);
 });
 
 // setup websocket
 const ws = new WebSocket('ws://192.168.1.111:3000/control-status');
-
-function setGamepadName(name) {
-  document.getElementById('gamepad-name').innerHTML = name;
-}
-
-let mainLoop;
-
-const leftYExpoSlider = document.getElementById('left-y-expo-slider')
-let leftYExpo = +leftYExpoSlider.value;
 
 function startMainLoop(gamepadIndex) {
   mainLoop = setInterval(() => {

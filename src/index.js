@@ -5,17 +5,15 @@ const port = 3000;
 const Mg90Servo = require('./Mg90Servo');
 const Throttle = require('./Throttle');
 
-// Define the servos
-const rudder = new Mg90Servo(0);
+// Define the servo
 const throttle = new Throttle(1);
-const aileron = new Mg90Servo(2);
-const elevator = new Mg90Servo(3);
+const servo1 = new Mg90Servo(2);
+const servo2 = new Mg90Servo(3);
 
 // Set servos to middle position
-rudder.setSweep(0);
 throttle.setSpeed(0);
-aileron.setSweep(0);
-elevator.setSweep(0);
+servo1.setSweep(0);
+servo2.setSweep(0);
 
 // Setup static web UI
 app.use(express.static(`${__dirname}/ui`));
@@ -31,15 +29,16 @@ app.listen(3000, () => {
   console.log(`listening on port ${port}`);
 });
 
+/** Updates servos/throttle when message arrives over websocket */
 function setServoPositions(stringifiedData) {
   const { leftX, leftY, rightX, rightY } = JSON.parse(stringifiedData);
   
-  rudder.setSweep(leftX);
   throttle.setSpeed(leftY);
-  aileron.setSweep(rightX);
-  elevator.setSweep(rightY);
+  servo1.setSweep(rightX);
+  servo2.setSweep(rightY);
 }
 
+/** If connection is lost, set throttle to 0 so vehicle stops */
 function setFailsafe() {
   throttle.setSpeed(0);
 }
