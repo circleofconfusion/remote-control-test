@@ -51,9 +51,7 @@ function mapAxes(rawAxes) {
   });
 
   // apply expo to leftY
-  console.log('beforeExpo', mappedAxes.leftY)
   mappedAxes.leftY = expo(mappedAxes.leftY, leftYExpo);
-  console.log('afterExpo', mappedAxes.leftY)
 
   return mappedAxes;
 }
@@ -104,4 +102,5 @@ function drawLeftYExpo() {
   ctx.stroke();
 }
 
+// Draw expo curve when page loads
 drawLeftYExpo();
